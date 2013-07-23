@@ -71,6 +71,9 @@ class Hybrid_Connect_For_EDD
         // Choose the one column layout
         add_action('template_redirect', array(&$this, 'one_column'));
 
+        // filters the get-the-image args for displaying larger images
+        add_filter('get_the_image_args', array(&$this, 'get_the_image_args'));
+
         // the after setup hook to give an opportunity to override things
         do_action('hcf_ccp_after_setup', &$this);
     }
@@ -110,6 +113,21 @@ class Hybrid_Connect_For_EDD
     function theme_layout_one_column($layout)
     {
         return 'layout-1c';
+    }
+
+    /**
+     * Filters the get-the-image args to show larger images.
+     *
+     * @since  0.1.0
+     */
+    function get_the_image_args($args)
+    {
+        if ($this->is_archive()) {
+
+            $args = array('size' => 'download-large', 'image_scan' => true);
+        }
+
+        return $args;
     }
 
     // =====================================================
