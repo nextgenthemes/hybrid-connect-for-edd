@@ -58,6 +58,32 @@ class Hybrid_Connect_For_EDD
 
             return;
         }
+
+        // Set constant path to the Hybrid Connect For EDD plugin directory
+        define('HCF_EDD_DIR', trailingslashit(plugin_dir_path(__FILE__)));
+
+        // Set constant path to the Hybrid Connect For EDD template directory
+        define('HCF_EDD_TEMPLATES_DIR', trailingslashit(HCF_EDD_DIR . 'templates'));
+
+        // add image sizes and register the download menu
+        add_action('init', array(&$this, 'init'));
+
+        // the after setup hook to give an opportunity to override things
+        do_action('hcf_ccp_after_setup', &$this);
+    }
+
+    /**
+     * Init image sizes and the download menu.
+     *
+     * @since  0.1.0
+     */
+    function init()
+    {
+        // init the download menu
+        register_nav_menu('downloads', esc_html__('Downloads', 'hybrid-connect-for-edd'));
+
+        // add image sizes
+        add_image_size('download-large', $this->image_width, $this->image_height, $this->image_crop);
     }
 
     // =====================================================
