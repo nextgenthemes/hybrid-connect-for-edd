@@ -148,6 +148,140 @@ class Hybrid_Connect_For_EDD
         return $length;
     }
 
+    /**
+     * Change the default downloads per page.
+     *
+     * @since  0.1.0
+     */
+    function downloads_per_page($per_page)
+    {
+        return $this->downloads_per_page = $per_page;
+    }
+
+    /**
+     * Get the content download template.
+     *
+     * @since  0.1.0
+     */
+    function get_template_content_download()
+    {
+        if (!locate_template('content-download.php', true, false)) {
+
+            // if no template found output the most simple template as possible
+            require(HCF_EDD_TEMPLATES_DIR . 'content-download.php');
+        }
+    }
+
+    // =====================================================
+    // STATIC METHODS
+    // =====================================================
+
+    /**
+     * Display the portfolio menu.
+     *
+     * @since  0.1.0
+     */
+    static function display_download_menu()
+    {
+        if (!locate_template('menu-download.php', true, false)) {
+
+            // if no template found output the default one
+            require(HCF_EDD_TEMPLATES_DIR . 'menu-download.php');
+        }
+    }
+
+    /**
+     * Checks if exists a loop-meta to be displayed.
+     *
+     * @since  0.1.0
+     */
+    static function has_loop_meta()
+    {
+        return is_post_type_archive('download') || is_tax('download_category') || is_tax('download_tag');
+    }
+
+    /**
+     * Display loop-meta.
+     *
+     * @since  0.1.0
+     */
+    static function display_loop_meta($wrap = false)
+    {
+        if (!Hybrid_Connect_For_EDD::has_loop_meta()) {
+
+            return;
+        }
+
+        echo '<div class="loop-meta">';
+        if ($wrap) echo apply_filters('hcf_edd_open_loop_meta_wrap', '<div class="wrap">');
+
+        if (is_tax('download_category') || is_tax('download_tag')) {
+            ?>
+
+            <h1 class="loop-title"><?php single_term_title(); ?></h1>
+
+            <div class="loop-description">
+                <?php echo term_description('', get_query_var('taxonomy')); ?>
+                <?php Hybrid_Connect_For_EDD::display_download_menu(); ?>
+            </div><!-- .loop-description -->
+
+        <?php
+        } elseif (is_post_type_archive('download')) {
+            ?>
+
+            <?php $post_type = get_post_type_object(get_query_var('post_type')); ?>
+
+            <h1 class="loop-title"><?php post_type_archive_title(); ?></h1>
+
+            <div class="loop-description">
+                <?php if (!empty($post_type->description)) echo wpautop($post_type->description); ?>
+                <?php Hybrid_Connect_For_EDD::display_download_menu(); ?>
+            </div><!-- .loop-description -->
+
+        <?php
+        }
+
+        if ($wrap) echo apply_filters('hcf_edd_close_loop_meta_wrap', '</div><!-- .wrap -->');
+        echo '</div><!-- .loop-meta -->';
+    }
+
+    /**
+     * Display wrapped loop-meta.
+     *
+     * @since  0.1.0
+     */
+    static function display_wrapped_loop_meta()
+    {
+
+        Hybrid_Connect_For_EDD::display_loop_meta(true);
+    }
+
+    /**
+     * Display some downloads.
+     *
+     * @since  0.1.0
+     */
+    static function display_downloads()
+    {
+        $loop = new WP_Query(
+            array(
+                'post_type' => 'download',
+                'posts_per_page' => apply_filters('hcf_edd_downloads_per_page', 0),
+            )
+        );
+
+        if ($loop->have_posts()) {
+            while ($loop->have_posts()) {
+                $loop->the_post();
+
+                do_action('hcf_edd_get_content_download');
+            }
+        }
+        ?>
+
+    <?php
+    }
+
     // =====================================================
     // UTIL PRIVATE METHODS
     // =====================================================
