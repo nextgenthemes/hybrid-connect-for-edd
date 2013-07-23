@@ -74,6 +74,9 @@ class Hybrid_Connect_For_EDD
         // filters the get-the-image args for displaying larger images
         add_filter('get_the_image_args', array(&$this, 'get_the_image_args'));
 
+        // change the default excerpt length
+        add_filter('excerpt_length', array(&$this, 'excerpt_length'));
+
         // the after setup hook to give an opportunity to override things
         do_action('hcf_ccp_after_setup', &$this);
     }
@@ -128,6 +131,21 @@ class Hybrid_Connect_For_EDD
         }
 
         return $args;
+    }
+
+    /**
+     * Change the default excerpt length.
+     *
+     * @since  0.1.0
+     */
+    function excerpt_length($length)
+    {
+        if ($this->is_archive() || is_page_template('pages/page-downloads.php')) {
+
+            return $this->excerpt_length;
+        }
+
+        return $length;
     }
 
     // =====================================================
