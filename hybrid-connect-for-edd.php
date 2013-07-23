@@ -77,6 +77,13 @@ class Hybrid_Connect_For_EDD
         // change the default excerpt length
         add_filter('excerpt_length', array(&$this, 'excerpt_length'));
 
+        // hooks for guys who does not like calling classes or static methods
+        add_action('hcf_edd_display_download_menu', array('Hybrid_Connect_For_EDD', 'display_download_menu'));
+        add_filter('hcf_edd_has_loop_meta', array('Hybrid_Connect_For_EDD', 'has_loop_meta'));
+        add_action('hcf_edd_display_loop_meta', array('Hybrid_Connect_For_EDD', 'display_loop_meta'));
+        add_action('hcf_edd_display_wrapped_loop_meta', array('Hybrid_Connect_For_EDD', 'display_wrapped_loop_meta'));
+        add_action('hcf_edd_display_downloads', array('Hybrid_Connect_For_EDD', 'display_downloads'));
+
         // the after setup hook to give an opportunity to override things
         do_action('hcf_ccp_after_setup', &$this);
     }
