@@ -68,6 +68,9 @@ class Hybrid_Connect_For_EDD
         // add image sizes and register the download menu
         add_action('init', array(&$this, 'init'));
 
+        // Choose the one column layout
+        add_action('template_redirect', array(&$this, 'one_column'));
+
         // the after setup hook to give an opportunity to override things
         do_action('hcf_ccp_after_setup', &$this);
     }
@@ -84,6 +87,29 @@ class Hybrid_Connect_For_EDD
 
         // add image sizes
         add_image_size('download-large', $this->image_width, $this->image_height, $this->image_crop);
+    }
+
+    /**
+     * Function for deciding which pages should have a one-column layout.
+     *
+     * @since 0.1.0
+     */
+    function one_column()
+    {
+        if ($this->is_archive()) {
+
+            add_filter('get_theme_layout', array(&$this, 'theme_layout_one_column'));
+        }
+    }
+
+    /**
+     * Filters 'get_theme_layout' by returning 'layout-1c'.
+     *
+     * @since 0.1.0
+     */
+    function theme_layout_one_column($layout)
+    {
+        return 'layout-1c';
     }
 
     // =====================================================
