@@ -1,10 +1,10 @@
-<?php if (has_nav_menu('download')) { ?>
+<?php if (has_nav_menu('downloads')) { ?>
 
     <?php wp_nav_menu(
         array(
-            'theme_location' => 'download',
+            'theme_location' => 'downloads',
             'container' => 'div',
-            'container_id' => 'menu-download',
+            'container_id' => 'menu-downloads',
             'container_class' => '',
             'menu_id' => 'menu-download-items',
             'menu_class' => 'menu-items',
@@ -15,7 +15,7 @@
 
 <?php } else { ?>
 
-    <div id="menu-download">
+    <div id="menu-downloads">
         <ul id="menu-download-items" class="menu-items">
             <?php $type = get_post_type_object('download'); ?>
 
