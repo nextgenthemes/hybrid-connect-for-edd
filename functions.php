@@ -5,12 +5,12 @@
  *
  * @since  0.1.0
  */
-function hcf_edd_download_menu()
+function hcf_edd_downloads_menu()
 {
-    if (!locate_template('menu-download.php', true, false)) {
+    if (!locate_template('menu-downloads.php', true, false)) {
 
         // if no template found output the default one
-        require(HCF_EDD_TEMPLATES_DIR . 'menu-download.php');
+        require(HCF_EDD_TEMPLATES_DIR . 'menu-downloads.php');
     }
 }
 

@@ -8,7 +8,7 @@
 
         <div class="loop-description">
             <?php echo term_description('', get_query_var('taxonomy')); ?>
-            <?php if (function_exists('hcf_edd_download_menu')) hcf_edd_download_menu(); ?>
+            <?php if (function_exists('hcf_edd_downloads_menu')) hcf_edd_downloads_menu(); ?>
         </div><!-- .loop-description -->
 
     <?php } elseif (is_post_type_archive('download')) { ?>
@@ -19,7 +19,7 @@
 
         <div class="loop-description">
             <?php if (!empty($post_type->description)) echo wpautop($post_type->description); ?>
-            <?php if (function_exists('hcf_edd_download_menu')) hcf_edd_download_menu(); ?>
+            <?php if (function_exists('hcf_edd_downloads_menu')) hcf_edd_downloads_menu(); ?>
         </div><!-- .loop-description -->
 
     <?php } ?>
