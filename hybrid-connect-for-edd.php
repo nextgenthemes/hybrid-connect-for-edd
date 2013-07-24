@@ -80,6 +80,13 @@ class Hybrid_Connect_For_EDD
         // change the default excerpt length
         add_filter('excerpt_length', array(&$this, 'excerpt_length'));
 
+        // some specific fallback for the hybrid parent theme
+        if ('hybrid' == get_template()) {
+
+            // filters widget areas to force the one column layout
+            add_filter('sidebars_widgets', array(&$this, 'fallback_hybrid_sidebars_widgets'));
+        }
+
         // the after setup hook to give an opportunity to override things
         do_action('hcf_ccp_after_setup', &$this);
     }
@@ -159,6 +166,25 @@ class Hybrid_Connect_For_EDD
     function downloads_per_page($per_page)
     {
         return $this->downloads_per_page = $per_page;
+    }
+
+    // =====================================================
+    // HYBRID PARENT THEME FALLBACK
+    // =====================================================
+
+    /**
+     * Decides which pages should have a one-column layout.
+     *
+     * @since  0.1.0
+     */
+    function fallback_hybrid_sidebars_widgets($sidebars_widgets)
+    {
+        if ($this->is_archive() || is_page_template('pages/page-downloads.php')) {
+
+            $sidebars_widgets = array();
+        }
+
+        return $sidebars_widgets;
     }
 
     // =====================================================
