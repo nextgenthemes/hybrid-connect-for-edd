@@ -88,7 +88,7 @@ class Hybrid_Connect_For_EDD
         }
 
         // the after setup hook to give an opportunity to override things
-        do_action('hcf_ccp_after_setup', &$this);
+        do_action('hcf_ccp_after_setup', $this);
     }
 
     /**
